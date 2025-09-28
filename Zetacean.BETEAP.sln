@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetacean.BETEAP.Students", "Zetacean.BETEAP.Students\Zetacean.BETEAP.Students.csproj", "{2F448D3E-D525-4817-8E8F-3D6CFC2AC48B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zetacean.BETEAP.Test", "Zetacean.BETEAP.Test\Zetacean.BETEAP.Test.csproj", "{29A1E0D3-749B-45C4-BA93-E4CE5505F4EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F448D3E-D525-4817-8E8F-3D6CFC2AC48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F448D3E-D525-4817-8E8F-3D6CFC2AC48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F448D3E-D525-4817-8E8F-3D6CFC2AC48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F448D3E-D525-4817-8E8F-3D6CFC2AC48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A1E0D3-749B-45C4-BA93-E4CE5505F4EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A1E0D3-749B-45C4-BA93-E4CE5505F4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A1E0D3-749B-45C4-BA93-E4CE5505F4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A1E0D3-749B-45C4-BA93-E4CE5505F4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5C56A01-71D2-451B-8BB9-79A9F88097A6}
+	EndGlobalSection
+EndGlobal
