@@ -59,13 +59,7 @@ jobs:
 
       - name: SonarScanner begin
         shell: pwsh
-        run: >
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin
-          /k:"zetacean_Backend-TestAutomation-Proof"
-          /o:"zetacean"
-          /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          /d:sonar.cs.cobertura.reportsPaths="**/TestResults/**/coverage.cobertura.xml""
+        run: ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.cobertura.reportsPaths="**/TestResults/**/coverage.cobertura.xml"
       # --- SONAR BEGIN ---
       # 🔹 Restore otra vez porque sonar-scanner cambia el contexto
       - name: Restore after SonarScanner begin
