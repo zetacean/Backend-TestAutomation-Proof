@@ -53,6 +53,6 @@ jobs:
           SONAR_TOKEN: $SONAR_TOKEN
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.token="$SONAR_TOKEN}}"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.token="$SONAR_TOKEN"
           dotnet build
           ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
