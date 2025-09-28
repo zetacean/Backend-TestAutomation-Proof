@@ -83,7 +83,7 @@ namespace Zetacean.BETEAP.Test
             _mockRepo.Setup(r => r.GetById(It.IsAny<int>())).ReturnsAsync((Student?)null);
 
             // Act
-            var result = await _service.GetById(999);
+            var result = await _service.GetById(998);
 
             // Assert
             result.Should().BeNull();
