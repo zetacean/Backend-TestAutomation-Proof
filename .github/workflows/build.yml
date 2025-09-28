@@ -50,8 +50,4 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
       - name: Build and analyze
         shell: powershell
-        run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.      opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
-          dotnet build
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+        run: ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"; dotnet build; dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=TestResults/; ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
