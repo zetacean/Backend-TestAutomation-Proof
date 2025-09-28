@@ -20,6 +20,7 @@ jobs:
         with:
           dotnet-version: "9.0.x"
 
+      # 🔹 Primer restore para preparar dependencias
       - name: Install dependencies
         run: dotnet restore
 
@@ -66,6 +67,10 @@ jobs:
           /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           /d:sonar.cs.cobertura.reportsPaths="**/TestResults/*/coverage.cobertura.xml"
       # --- SONAR BEGIN ---
+      # 🔹 Segundo restore, requerido después de sonar-scanner begin
+      - name: Restore after SonarScanner begin
+        run: dotnet restore
+
       - name: Build
         run: dotnet build --no-restore
 
