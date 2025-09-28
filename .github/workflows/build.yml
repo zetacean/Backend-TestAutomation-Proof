@@ -1,4 +1,4 @@
-name: Test and compile
+name: SonarQube
 
 on:
   push:
@@ -9,32 +9,22 @@ on:
 
 jobs:
   build:
-    name: Build and analyze
+    name: Build, Test and Analyze
     runs-on: windows-latest
-
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.0.x"
-
-      # 🔹 Restore inicial
-      - name: Install dependencies
-        run: dotnet restore
-
-      # --- SONAR BEGIN ---
+      # 1️⃣ Configurar JDK
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: "zulu"
 
+      # 2️⃣ Hacer checkout
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 3️⃣ Cache para SonarQube
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
@@ -42,7 +32,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
-      - name: Cache SonarQube Cloud scanner
+      - name: Cache SonarQube scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
         with:
@@ -50,29 +40,28 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
+      # 4️⃣ Instalar SonarQube Scanner si no está en cache
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: pwsh
+        shell: powershell
         run: |
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
 
-      - name: SonarScanner begin
-        shell: pwsh
-        run: ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.cobertura.reportsPaths="**/TestResults/**/coverage.cobertura.xml"
-      # --- SONAR BEGIN ---
-      # 🔹 Restore otra vez porque sonar-scanner cambia el contexto
-      - name: Restore after SonarScanner begin
-        run: dotnet restore
+      # 5️⃣ Build, Test y Análisis SonarQube con cobertura
+      - name: Build, Test and Analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          # Iniciar SonarQube scanner
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"zetacean_Backend-TestAutomation-Proof" /o:"zetacean" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="TestResults/**/coverage.cobertura.xml"
 
-      - name: Build
-        run: dotnet build --no-restore
+          # Build del proyecto
+          dotnet build
 
-      - name: Test with coverage
-        run: dotnet test --collect:"XPlat Code Coverage" --results-directory TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+          # Ejecutar tests y generar cobertura
+          dotnet test --collect:"XPlat Code Coverage" --results-directory:"TestResults"
 
-      # --- SONAR END ---
-      - name: SonarScanner end
-        shell: pwsh
-        run: ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-      # --- SONAR END ---
+          # Finalizar análisis SonarQube
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
