@@ -19,8 +19,13 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Test with the dotnet CLI
-        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover --no-build
+      - name: Test with coverage
+        run: |
+          dotnet test Zetacean.BETEAP.Test/Zetacean.BETEAP.Test.csproj `
+            /p:CollectCoverage=true `
+            /p:CoverletOutput=TestResults/coverage.opencover.xml `
+            /p:CoverletOutputFormat=opencover `
+            /p:Include="[Zetacean.BETEAP.Students]*"
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
